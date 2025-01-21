@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Shuffler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
+    .container {
+      text-align: center;
+      max-width: 600px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #e9f7ef;
+      border: 1px solid #d4efdf;
+      border-radius: 5px;
+      text-align: left;
+    }
+    .result-row {
+      margin-bottom: 10px;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Word Shuffler</h1>
+    <textarea id="wordInput" placeholder="Enter words separated by spaces..."></textarea>
+    <br>
+    <button onclick="shuffleWords()">Shuffle Words</button>
+    <div class="result" id="shuffledResult"></div>
+  </div>
+
+  <script>
+    function shuffleWords() {
+      const input = document.getElementById("wordInput").value.trim();
+      const resultDiv = document.getElementById("shuffledResult");
+      resultDiv.innerHTML = ""; // Clear previous result
+
+      if (!input) {
+        resultDiv.innerText = "Please enter some words!";
+        return;
+      }
+
+      const words = input.split(/\s+/); // Split words by spaces
+      for (let i = words.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Shuffle logic
+        [words[i], words[j]] = [words[j], words[i]];
+      }
+
+      // Create rows of 12 words each and separate by a line
+      for (let i = 0; i < words.length; i += 12) {
+        const row = document.createElement("div");
+        row.className = "result-row";
+        row.innerText = words.slice(i, i + 12).join(" ");
+        resultDiv.appendChild(row);
+
+        if (i + 12 < words.length) {
+          const line = document.createElement("hr");
+          resultDiv.appendChild(line);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
